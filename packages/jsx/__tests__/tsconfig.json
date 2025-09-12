@@ -5,7 +5,8 @@
     "baseUrl": ".",
     "paths": {
       "@antv/infographic-jsx": ["../src"],
-      "@antv/infographic-jsx/*": ["../src/*"]
+      "@antv/infographic-jsx/*": ["../src/*"],
+      "@@/*": ["./*"]
     }
   }
 }

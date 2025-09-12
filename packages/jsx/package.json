@@ -26,7 +26,7 @@
   "scripts": {
     "build": "tsc",
     "t": "tsx ./src/test.tsx",
-    "test": "vitest",
+    "test": "vitest --run",
     "watch": "tsc -w"
   },
   "devDependencies": {

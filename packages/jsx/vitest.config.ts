@@ -9,6 +9,7 @@ export default defineConfig({
       '@antv/infographic-jsx/jsx-dev-runtime': jsxRuntimePath,
       '@antv/infographic-jsx/jsx-runtime': jsxRuntimePath,
       '@antv/infographic-jsx': path.resolve(__dirname, './src'),
+      '@@': path.resolve(__dirname, './__tests__'),
     },
   },
 });
