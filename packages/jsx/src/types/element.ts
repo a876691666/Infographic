@@ -32,3 +32,6 @@ export interface TextProps extends BaseGeometryProps {
   children?: string | number;
 }
 export interface PathProps extends BaseGeometryProps {}
+export interface PolygonProps extends Omit<BaseGeometryProps, 'points'> {
+  points?: [number, number][];
+}
