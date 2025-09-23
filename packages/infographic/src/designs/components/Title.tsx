@@ -22,8 +22,8 @@ export const Title = (props: TitleProps) => {
     y = 0,
     width = 720,
     alignHorizontal = 'center',
-    title = 'Title',
-    desc = 'Sub Title',
+    title,
+    desc,
     descLineNumber: subTitleLineNumber = 2,
     themeColors,
   } = props;

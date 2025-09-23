@@ -7,11 +7,7 @@ export interface ItemLabelProps extends TextProps {
   indexes: number[];
 }
 
-export const ItemLabel = ({
-  indexes,
-  children = 'Item Label',
-  ...props
-}: ItemLabelProps) => {
+export const ItemLabel = ({ indexes, children, ...props }: ItemLabelProps) => {
   const finalProps: TextProps = {
     fontSize: 18,
     fontWeight: 'bold',

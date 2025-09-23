@@ -11,7 +11,7 @@ export interface ItemDescProps extends TextProps {
 export const ItemDesc = ({
   indexes,
   lineNumber = 2,
-  children = 'Item Description',
+  children,
   ...props
 }: ItemDescProps) => {
   const finalProps: TextProps = {
