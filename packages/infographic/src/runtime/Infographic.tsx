@@ -17,6 +17,7 @@ export class Infographic {
 
   render() {
     const { container } = this.parsedOptions;
+    this.setView();
     const template = this.compose();
     const renderer = new Renderer(this.parsedOptions, template);
 
@@ -50,5 +51,12 @@ export class Infographic {
       throw new Error('Failed to parse SVG template');
     }
     return template;
+  }
+
+  private setView() {
+    const { container, width, height } = this.parsedOptions;
+    if (!container) return;
+    if (width) container.style.width = `${width}px`;
+    if (height) container.style.height = `${height}px`;
   }
 }

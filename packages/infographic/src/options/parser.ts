@@ -121,7 +121,9 @@ function parseDesignItem(
                 themeConfig?.palette,
                 indexes,
                 data?.items?.length,
-              ) || '#1890ff',
+              ) ||
+                themeConfig?.colorPrimary ||
+                '#1677FF',
               background,
             );
 

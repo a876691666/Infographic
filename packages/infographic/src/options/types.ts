@@ -6,9 +6,9 @@ export interface InfographicOptions {
   /** 容器，可以是选择器或者 HTMLElement */
   container?: string | HTMLElement;
   /** 宽度 */
-  width: number;
+  width?: number;
   /** 高度 */
-  height: number;
+  height?: number;
   /** 容器内边距 */
   padding?: Padding;
   /** 模板 */
@@ -25,8 +25,8 @@ export interface InfographicOptions {
 
 export interface ParsedInfographicOptions {
   container: HTMLElement;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
   padding?: Padding;
   viewBox?: string;
   template?: string;
