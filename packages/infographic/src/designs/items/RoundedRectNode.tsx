@@ -37,7 +37,7 @@ export const RoundedRectNode: ComponentType<RoundedRectNodeProps> = (props) => {
     <Group {...restProps}>
       {/* Rounded rectangle background */}
       <Rect
-        id={getItemId(indexes, 'shape-rect')}
+        id={getItemId(indexes, 'shape', 'rect')}
         width={width}
         height={height}
         rx={borderRadius}

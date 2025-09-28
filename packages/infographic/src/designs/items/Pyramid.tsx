@@ -111,7 +111,7 @@ export const Pyramid: ComponentType<PyramidProps> = (props) => {
         id={getItemId(indexes, 'shapes-group')}
       >
         <Rect
-          id={getItemId(indexes, 'static-background')}
+          id={getItemId(indexes, 'static', 'background')}
           x={backgroundX}
           width={backgroundWidth}
           y={backgroundY}
@@ -120,7 +120,7 @@ export const Pyramid: ComponentType<PyramidProps> = (props) => {
           fill={themeColors.colorPrimaryBg}
         />
         <Polygon
-          id={getItemId(indexes, 'static-pyramid')}
+          id={getItemId(indexes, 'static', 'pyramid')}
           points={segments}
           fill={`url(#${pyramidColorId})`}
         />

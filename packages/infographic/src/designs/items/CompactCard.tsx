@@ -28,7 +28,7 @@ export const CompactCard: ComponentType<CompactCardProps> = (props) => {
   ] = getItemProps(props, ['width', 'height', 'iconSize', 'gap']);
 
   const value = datum.value;
-  const shadowId = getItemId(indexes, 'compact-shadow');
+  const shadowId = getItemId(indexes, 'def', 'compact-shadow');
 
   const iconX = positionH === 'flipped' ? width - gap - iconSize : gap;
   const textStartX = positionH === 'flipped' ? gap : iconSize + 2 * gap;

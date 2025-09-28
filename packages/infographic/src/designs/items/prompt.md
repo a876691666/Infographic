@@ -204,8 +204,10 @@ export interface ThemeColors {
 
 - **getItemId**: 生成组件 ID
   ```typescript
-  const id = getItemId(indexes, 'shape');
-  // 生成: "item-0-shape" 格式的 ID
+  // function getItemId(indexes: number[], type: 'static' | 'shape' | 'def' | 'shapes-group', appendix?: string): string
+  const id = getItemId(indexes, 'shape', 'item');
+  // 生成: "item-0-shape-item" 格式的 ID
+  // 如果 type 为 shape，那么后续可以被渲染器进行二次着色或者风格化处理
   ```
 
 ### 4. 第三方库支持
@@ -495,7 +497,7 @@ const displayValue = value ?? 0; // 用于显示
 ❌ **错误做法**：
 
 ```typescript
-const gradientId = getItemId(indexes, 'gradient'); // 基于索引，无法复用
+const gradientId = getItemId(indexes, 'def', 'gradient'); // 基于索引，无法复用
 ```
 
 ✅ **正确做法**：

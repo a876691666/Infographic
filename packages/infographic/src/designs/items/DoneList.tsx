@@ -39,7 +39,7 @@ export const DoneList: ComponentType<DoneListProps> = (props) => {
   return (
     <Group {...restProps}>
       <Path
-        id={getItemId(indexes, 'shape')}
+        id={getItemId(indexes, 'shape', 'done-icon')}
         x={positionH === 'flipped' ? descWidth + gap : 0}
         y={shapeY}
         fill="#FEA3BF"
