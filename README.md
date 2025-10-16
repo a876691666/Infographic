@@ -1,81 +1,59 @@
-## 开发说明
+# 信息图模板研发框架
+
+基于 `@antv/infographic` 的信息图模板研发框架，提供完整的组件化开发体系。
+
+## 🚀 快速开始
+
+### 环境准备
+
+```bash
+# 安装依赖
+pnpm install
+
+# 启动开发环境
+pnpm dev
+
+# 运行测试
+pnpm test
+```
 
 ### 项目结构
 
-```md
+```
 packages/
-├── infographic-jsx/ - jsx 语法底层实现
-│ ├── components - 原语组件
-│ ├── jsx-runtime.ts - jsx 运行时
-│ ├── renderer.ts - SVG 渲染器
-│ └── layout.ts - 布局
-├── infographic/ - 信息图生成、导出等核心功能
-│ ├── generator - 模版组件定义（包含基本组件 components, 数据项 items, 布局 layouts, 结构 structures）
-│ ├── renderer - 渲染器
-│ └── resource - 资源管理
-└── dev/ - 开发调试
+├── infographic/          # 核心信息图框架
+│   ├── src/
+│   │   ├── designs/      # 模板设计系统
+│   │   │   ├── items/    # 数据项组件
+│   │   │   ├── structures/ # 结构组件
+│   │   │   ├── components/ # 通用组件
+│   │   │   └── layouts/  # 布局组件
+│   │   ├── renderer/     # SVG渲染器
+│   │   ├── themes/       # 主题系统
+│   │   └── templates/    # 模板注册
+│   ├── infographic-jsx/  # JSX运行时
+│   └── dev/              # 开发调试环境
 ```
 
-### 安装依赖
+### 📋 开发指南
 
-> 使用 pnpm 安装依赖
+- [信息图模板开发指南](./docs/development-template-guide.md)
+
+## 📦 构建和发布
+
+### 构建命令
 
 ```bash
-pnpm install
+# 构建所有包
+pnpm build
+
+# 构建特定包
+pnpm --filter @antv/infographic build
 ```
 
-### 开发调试
+### 发布流程
 
-> 目前信息图语法组装逻辑暂未实现，因此需要安装如下逻辑手动组装
-
-1. 开发组件：
-
-开发参考 `infographic/generator` 下的实现，按照需求开发数据项、布局、结构等组件
-
-将组件导出
-
-2. 组装组件
-
-在 `dev/src/main.tsx` 中引入组件，组装成信息图模版
-
-### 可用组件
-
-> 组件统一从 `@antv/infographic` 中导入
-
-1. 原语组件
-
-- Defs: 定义渐变、滤镜等
-- Ellipse: 椭圆
-- Group: 组合
-- Path: 路径
-- Rect: 矩形
-- Text: 文字
-
-2. 信息图组件
-
-- BtnAdd: 添加按钮
-- BtnRemove: 删除按钮
-- BtnsGroup: 按钮组
-- Illus: 插图
-- ItemDesc: 数据项描述
-- ItemLabel: 数据项标签
-- ItemIcon: 数据项图标
-- ItemsGroup: 数据项组
-- Title: 标题
-
-3. 布局组件
-
-- FlexLayout: 弹性盒子布局
-
-### 现有设计实现
-
-#### 数据项 Item
-
-- DoneList: 左侧为勾选图标，右侧为数据项描述，支持水平翻转布局
-- SimpleItem: 包含图标、标题、描述的数据项（与现有 AntV 模版数据项一致），支持上下左右位置放置布局
-
-#### 结构 Structure
-
-> 结构中需要考虑按钮的放置
-
-- ListColumn: 单列纵向排布
+1. 更新版本号
+2. 运行测试确保通过
+3. 构建所有包
+4. 发布到 npm
