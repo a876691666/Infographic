@@ -19,13 +19,13 @@ import {IconStarTwinkle} from 'components/Icon/IconStarTwinkle';
 import {Logo} from 'components/Logo';
 import BlogCard from 'components/MDX/BlogCard';
 import CodeBlock from 'components/MDX/CodeBlock';
-import {getStoredLanguage, type Language} from '../../utils/i18n';
-import {t} from '../../utils/translations';
+import {useLocaleBundle} from '../../hooks/useTranslation';
 import ButtonLink from '../ButtonLink';
 import {AIInfographicFlow} from './HomePage/AIInfographicFlow';
 import {CodePlayground} from './HomePage/CodePlayground';
 import {Gallery} from './HomePage/Gallery';
 import {QuickStartDemo, useQuickStartDemoCode} from './HomePage/QuickStartDemo';
+import {StreamingSyntaxShowcase} from './HomePage/StreamingSyntaxShowcase';
 import {StylizeDemo} from './HomePage/StylizeDemo';
 
 type SectionBackground = 'left-card' | 'right-card' | null;
@@ -49,11 +49,6 @@ interface CTAProps {
   color?: string;
 }
 
-interface Feature {
-  title: string;
-  detail: string;
-}
-
 interface ActiveArea {
   name: string;
 }
@@ -73,22 +68,202 @@ interface ExamplePanelProps {
   contentMarginTop?: CSSProperties['marginTop'];
 }
 
-console.log('AntV Infographic version:', VERSION);
-
-const getHeroPrompts = (lang: Language) => [
-  {
-    title: t(lang, 'home.heroPrompts.prompt1Title'),
-    text: t(lang, 'home.heroPrompts.prompt1Text'),
+const TRANSLATIONS = {
+  'zh-CN': {
+    heroPrompts: [
+      {
+        title: '🎯 产品生命周期管理',
+        text: '产品从导入期到成长期，销量快速攀升，市场份额从5%增长至25%。成熟期达到峰值40%后保持稳定。衰退期开始下滑至15%。通过在成长期加大营销投入，成熟期优化成本结构，衰退期及时推出升级产品，实现平稳过渡。',
+      },
+      {
+        title: '💰 客户价值分层',
+        text: '将客户分为四个层级：VIP客户占比5%但贡献45%营收，高价值客户占15%贡献30%营收，普通客户占30%贡献20%营收，低价值客户占50%仅贡献5%营收。针对不同层级制定差异化服务策略，重点维护高价值客群，激活潜力客户。',
+      },
+      {
+        title: '🌍 全球市场布局进展',
+        text: '2020年聚焦亚太市场，营收占比60%。2021年拓展欧洲市场，占比提升至25%。2022年进军北美，三大市场形成均衡格局，分别为40%、30%、25%。2023年新兴市场突破，拉美和中东合计贡献15%，全球化布局初步完成。',
+      },
+    ],
+    features: [
+      {
+        title: '信息图语法',
+        detail: '贴合信息图特性的声明式语法，涵盖布局、元素、主题',
+      },
+      {
+        title: 'JSX 定制开发',
+        detail: '以 JSX 描述设计资产，直观可复用，灵活扩展',
+      },
+      {
+        title: '风格化渲染',
+        detail: '一套模板多种风格，支持手绘、纹理、渐变等效果',
+      },
+      {
+        title: '可视化编辑',
+        detail: '可交互增删数据项，添加图形与标注，所见即所得',
+      },
+    ],
+    hero: {
+      tagline: '新一代声明式信息图可视化引擎',
+      ctaStart: '快速开始',
+      ctaAi: 'AI 生成',
+      aiCardTitle: 'AI 生成信息图',
+      inputLabel: '输入信息图生成描述',
+      inputPlaceholder: '用一句话描述你想要的信息图',
+      submitFull: '生成信息图',
+      submitShort: '生成',
+    },
+    sections: {
+      declarative: {
+        title: '声明式信息图渲染框架',
+        keyword: '声明式',
+        description: '配置描述信息图，让数据叙事更简单、更优雅、更高效',
+        note: '100+ 内置模板与组件，开箱可用；从 0 到 1 构建信息图，从未如此轻松',
+      },
+      ai: {
+        title: 'AI 轻松生成专业信息图',
+        description:
+          '让 AI 理解文本，抽取关键信息并生成配置，一键渲染专业信息图',
+        note: '无需设计经验，AI 完成从内容理解到可视化呈现的全流程',
+        cta: '前往体验',
+      },
+      streaming: {
+        title: 'AI 友好的信息图语法',
+        cta: '了解信息图语法',
+        highlights: [
+          '简洁：语法简洁直观，易于理解和编写',
+          '高容错：对人工或 AI 生成的语法错误具备一定容错能力',
+          '能力完备：支持完备的信息图配置能力，满足多样化需求',
+          '流式输出：天然适配 AI 流式输出特点，支持分段描述与实时渲染',
+        ],
+      },
+      themes: {
+        title: '多样主题效果',
+        description: '一键切换风格，满足不同场景需求',
+        note: '支持自定义主题配置，灵活扩展样式系统',
+        cta: '查看主题配置文档',
+      },
+      playground: {
+        title: '在线体验',
+        description:
+          '在线编辑器中创建你的第一张信息图。用简洁配置快速完成可视化，实时预览即改即见',
+        note: '无需安装，在浏览器即可创作。丰富示例助你快速上手，轻松打造专业信息图',
+        cta: '查看更多示例',
+      },
+      evolution: {
+        title: '持续演进，拥抱未来',
+        description: '愿景：让信息图成为 AI 时代的视觉语言基础设施',
+        featuresLabel: '特性',
+        roadmapLabel: '未来计划',
+        cta: '了解更多动态',
+        alt: 'AntV Infographic 团队技术探索示意',
+      },
+      welcome: {
+        title: '欢迎使用 AntV Infographic',
+        cta: '立即开始',
+      },
+    },
   },
-  {
-    title: t(lang, 'home.heroPrompts.prompt2Title'),
-    text: t(lang, 'home.heroPrompts.prompt2Text'),
+  'en-US': {
+    heroPrompts: [
+      {
+        title: '🎯 Product Lifecycle Management',
+        text: 'From introduction to growth phase, sales rapidly increased and market share grew from 5% to 25%. During maturity, it peaked at 40% and remained stable. In the decline phase, it dropped to 15%. By increasing marketing investment during growth, optimizing cost structure during maturity, and timely launching upgraded products during decline, a smooth transition was achieved.',
+      },
+      {
+        title: '💰 Customer Value Segmentation',
+        text: 'Customers are divided into four tiers: VIP customers account for 5% but contribute 45% of revenue, high-value customers 15% contribute 30% of revenue, regular customers 30% contribute 20% of revenue, and low-value customers 50% contribute only 5% of revenue. Differentiated service strategies are developed for different tiers, focusing on maintaining high-value customer groups and activating potential customers.',
+      },
+      {
+        title: '🌍 Global Market Expansion',
+        text: 'In 2020, focused on the Asia-Pacific market, accounting for 60% of revenue. In 2021, expanded to the European market, increasing to 25%. In 2022, entered North America, forming a balanced pattern across three major markets at 40%, 30%, and 25% respectively. In 2023, emerging markets broke through, with Latin America and the Middle East contributing a combined 15%, completing the initial globalization layout.',
+      },
+    ],
+    features: [
+      {
+        title: 'Infographic Syntax',
+        detail:
+          'Declarative syntax tailored for infographic features, covering layouts, elements, and themes',
+      },
+      {
+        title: 'JSX Custom Development',
+        detail:
+          'Describe design assets with JSX, intuitive and reusable, flexibly extensible',
+      },
+      {
+        title: 'Stylized Rendering',
+        detail:
+          'One template, multiple styles, supporting hand-drawn, textures, gradients, and other effects',
+      },
+      {
+        title: 'Visual Editing',
+        detail:
+          'Interactive addition and deletion of data items, adding shapes and annotations, WYSIWYG',
+      },
+    ],
+    hero: {
+      tagline: 'Next-generation declarative infographic engine',
+      ctaStart: 'Get Started',
+      ctaAi: 'AI Generate',
+      aiCardTitle: 'AI Generated Infographics',
+      inputLabel: 'Enter an infographic description',
+      inputPlaceholder: 'Describe the infographic you want in one sentence',
+      submitFull: 'Generate',
+      submitShort: 'Generate',
+    },
+    sections: {
+      declarative: {
+        title: 'Declarative Infographic Rendering',
+        keyword: 'Declarative',
+        description:
+          'Describe infographics declaratively to make data stories simpler, cleaner, and more efficient',
+        note: '100+ built-in templates and components help you go from 0 to 1 with ease',
+      },
+      ai: {
+        title: 'AI Creates Pro Infographics',
+        description:
+          'Let AI understand text, extract key information, and render polished infographics in one click',
+        note: 'No design background required—AI covers the entire flow from understanding to visualization',
+        cta: 'Try It Now',
+      },
+      streaming: {
+        title: 'AI friendly Infographic Syntax',
+        cta: 'View Infographic Syntax',
+        highlights: [
+          'Simplicity: Concise and intuitive syntax, easy to understand and write',
+          'Fault Tolerance: Resilient to errors in human or AI-generated syntax',
+          'Completeness: Comprehensive infographic configuration capabilities',
+          'Streaming Output: Naturally supports AI streaming with segmented rendering',
+        ],
+      },
+      themes: {
+        title: 'Rich Theme Effects',
+        description: 'Switch styles in one click to fit different scenarios',
+        note: 'Customize theme configuration to extend the styling system',
+        cta: 'View Theme Docs',
+      },
+      playground: {
+        title: 'Playground',
+        description:
+          'Create your first infographic in the online editor. Use concise configs and preview changes instantly',
+        note: 'Create right in the browser. Plenty of examples help you ramp up fast',
+        cta: 'View More Examples',
+      },
+      evolution: {
+        title: 'Evolving for the Future',
+        description:
+          'Vision: make infographics the visual language infrastructure for the AI era',
+        featuresLabel: 'Features',
+        roadmapLabel: 'Roadmap',
+        cta: 'More Updates',
+        alt: 'AntV Infographic team exploration illustration',
+      },
+      welcome: {
+        title: 'Welcome to AntV Infographic',
+        cta: 'Start Now',
+      },
+    },
   },
-  {
-    title: t(lang, 'home.heroPrompts.prompt3Title'),
-    text: t(lang, 'home.heroPrompts.prompt3Text'),
-  },
-];
+};
 
 function Section({
   children,
@@ -179,37 +354,13 @@ function FullBleed({children}: BasicProps) {
   );
 }
 
-const getFeatures = (lang: Language): Feature[] => [
-  {
-    title: t(lang, 'home.features.feature1Title'),
-    detail: t(lang, 'home.features.feature1Detail'),
-  },
-  {
-    title: t(lang, 'home.features.feature2Title'),
-    detail: t(lang, 'home.features.feature2Detail'),
-  },
-  {
-    title: t(lang, 'home.features.feature3Title'),
-    detail: t(lang, 'home.features.feature3Detail'),
-  },
-  {
-    title: t(lang, 'home.features.feature4Title'),
-    detail: t(lang, 'home.features.feature4Detail'),
-  },
-];
-
 export function HomeContent(): JSX.Element {
   const router = useRouter();
-  const [lang, setLang] = useState<Language>('zh-CN');
-
-  useEffect(() => {
-    setLang(getStoredLanguage());
-  }, []);
-
-  const HERO_PROMPTS = getHeroPrompts(lang);
-  const features = getFeatures(lang);
-  const heroContent = t(lang, 'home.hero') as Record<string, string>;
-  const sectionContent = t(lang, 'home.sections') as any;
+  const homeTexts = useLocaleBundle(TRANSLATIONS);
+  const heroPrompts = homeTexts.heroPrompts;
+  const features = homeTexts.features;
+  const heroContent = homeTexts.hero;
+  const sectionContent = homeTexts.sections;
   const quickStartDemoCode = useQuickStartDemoCode();
   const [heroPrompt, setHeroPrompt] = useState('');
   const [placeholderText, setPlaceholderText] = useState('');
@@ -221,7 +372,7 @@ export function HomeContent(): JSX.Element {
 
   useEffect(() => {
     if (heroPrompt || isHeroInputActive) return;
-    const current = HERO_PROMPTS[placeholderIndex]?.title ?? '';
+    const current = heroPrompts[placeholderIndex]?.title ?? '';
     let timer: NodeJS.Timeout;
 
     if (placeholderStage === 'typing') {
@@ -242,7 +393,7 @@ export function HomeContent(): JSX.Element {
       } else {
         timer = setTimeout(() => {
           setPlaceholderStage('typing');
-          setPlaceholderIndex((idx) => (idx + 1) % HERO_PROMPTS.length);
+          setPlaceholderIndex((idx) => (idx + 1) % heroPrompts.length);
         }, 200);
       }
     }
@@ -256,13 +407,13 @@ export function HomeContent(): JSX.Element {
     placeholderIndex,
     placeholderStage,
     placeholderText,
-    HERO_PROMPTS,
+    heroPrompts,
   ]);
 
   const handleHeroSubmit = () => {
     const content =
       heroPrompt.trim() ||
-      HERO_PROMPTS[placeholderIndex]?.text ||
+      heroPrompts[placeholderIndex]?.text ||
       placeholderText.trim() ||
       '';
     if (!content) return;
@@ -370,7 +521,7 @@ export function HomeContent(): JSX.Element {
                         <div className="pointer-events-none absolute inset-0 flex items-center px-4 lg:px-5 pr-[152px] text-secondary dark:text-secondary-dark text-base lg:text-lg">
                           <span className="truncate">
                             {placeholderText ||
-                              HERO_PROMPTS[placeholderIndex]?.title ||
+                              heroPrompts[placeholderIndex]?.title ||
                               heroContent.inputPlaceholder}
                           </span>
                           <span className="ml-1 h-5 w-[2px] bg-link/80 dark:bg-link-dark/80 animate-pulse rounded" />
@@ -430,6 +581,18 @@ export function HomeContent(): JSX.Element {
           <Center>
             <Para>{sectionContent.declarative.note}</Para>
           </Center>
+        </Section>
+
+        <Section background="right-card" lazy placeholderHeight={880}>
+          <Center>
+            <Header>{sectionContent.streaming.title}</Header>
+          </Center>
+          <FullBleed>
+            <StreamingSyntaxShowcase
+              cta={sectionContent.streaming.cta}
+              highlights={sectionContent.streaming.highlights}
+            />
+          </FullBleed>
         </Section>
 
         <Section background="right-card" lazy placeholderHeight={760}>
